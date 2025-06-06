@@ -1,7 +1,6 @@
-
-<p align="center">
+<!-- <p align="center">
   <img src="logo.svg" alt="Cinezy Logo" width="300">
-</p>
+</p> -->
 
 # 🎬 Cinezy - Your Ultimate Streaming Platform
 
@@ -165,8 +164,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Tailwind CSS](https://tailwindcss.com/) for styling
 - All the streaming providers that make this service possible
 
----
+<!-- ---
 
-Developed with ❤️ by [Anya](https://github.com/its-anya)
-
-
+Developed with ❤️ by [Anya](https://github.com/its-anya) -->
