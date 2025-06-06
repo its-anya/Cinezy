@@ -1,0 +1,31 @@
+<svg width="40" height="40" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="60" fill="white"/>
+  <g>
+    <!-- Play Button Icon - Enhanced with gradient and shadow -->
+    <circle cx="30" cy="30" r="20" fill="url(#redGradient)"/>
+    <filter id="shadow" x="-2" y="-2" width="64" height="64" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-opacity="0.3" />
+    </filter>
+    <polygon points="25,20 25,40 40,30" fill="white" filter="url(#shadow)"/>
+    
+    <!-- CINEZY Text - Enhanced with better typography -->
+    <text x="68" y="38" font-family="Arial, sans-serif" font-size="32" font-weight="bold" letter-spacing="0.5" filter="url(#textShadow)">
+      <tspan fill="url(#textGradient)">CINEZY</tspan>
+    </text>
+  </g>
+  
+  <!-- Gradients and Filters -->
+  <defs>
+    <linearGradient id="redGradient" x1="10" y1="10" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF0A35"/>
+      <stop offset="100%" stop-color="#D41C1C"/>
+    </linearGradient>
+    <linearGradient id="textGradient" x1="60" y1="20" x2="60" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF0A35"/>
+      <stop offset="100%" stop-color="#D41C1C"/>
+    </linearGradient>
+    <filter id="textShadow" x="-2" y="-2" width="204" height="64" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="1" stdDeviation="0.5" flood-opacity="0.3" />
+    </filter>
+  </defs>
+</svg>
