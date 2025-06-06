@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <p align="center">
   <img src="logo.svg" alt="Cinezy Logo" width="300">
 </p>
@@ -31,6 +31,7 @@ Cinezy integrates with multiple streaming providers to ensure you always find a 
 - VidLink
 - 2Embed Stream
 - MultiEmbed
+
 
 ## 🛠️ Tech Stack
 
@@ -168,7 +169,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Developed with ❤️ by [Anya](https://github.com/its-anya)
-=======
-# Cinezy
-Watch movies online for free | Cinezy
->>>>>>> 79db59bdece3ae2c35cb6f93826e8585078bdd0d
+
+
