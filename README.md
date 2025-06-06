@@ -32,10 +32,6 @@ Cinezy integrates with multiple streaming providers to ensure you always find a 
 - 2Embed Stream
 - MultiEmbed
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 71d6421 (Initial commit)
 ## 🛠️ Tech Stack
 
 - **Frontend Framework**: React 19
