@@ -1,10 +1,10 @@
-<!-- <p align="center">
-  <img src="logo.svg" alt="Cinezy Logo" width="300">
-</p> -->
-
 # 🎬 Cinezy - Your Ultimate Streaming Platform
 
 Cinezy is a modern, high-performance streaming platform that lets you watch movies, TV shows, and anime for free. Built with React 19, Vite, and styled with Tailwind CSS, it offers a smooth and responsive user experience across all devices.
+
+<p align="center">
+  <img src="logo.svg" alt="Cinezy Logo" width="300">
+</p> 
 
 ## ✨ Features
 
@@ -156,7 +156,7 @@ Please ensure your code follows the project's style guidelines.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [TMDb](https://www.themoviedb.org/) for providing the movie and TV show data
 - [Vite](https://vitejs.dev/) for the amazing build tool
@@ -164,7 +164,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Tailwind CSS](https://tailwindcss.com/) for styling
 - All the streaming providers that make this service possible
 
-<!-- ---
 
-Developed with ❤️ by [Anya](https://github.com/its-anya) -->
 
+Developed with ❤️ by [Anya](https://github.com/its-anya) 

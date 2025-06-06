@@ -1,5 +1,5 @@
 // src/components/BottomNav.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   HomeIcon, 
@@ -12,13 +12,29 @@ import {
 const navItems = [
   { path: '/', label: 'Home', icon: HomeIcon },
   { path: '/explore/movie', label: 'Movies', icon: FilmIcon },
-  { path: '/explore/tv', label: 'TV Shows', icon: TvIcon },
+  { path: '/explore/tv', label: 'TV Shows', mobileLabel: 'TV', icon: TvIcon },
   { path: '/explore/anime', label: 'Anime', icon: SparklesIcon },
   { path: '/search', label: 'Search', icon: MagnifyingGlassIcon },
 ];
 
 const BottomNav = () => {
   const location = useLocation();
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth <= 360);
+    };
+    
+    // Initial check
+    checkScreenSize();
+    
+    // Add event listener
+    window.addEventListener('resize', checkScreenSize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
   
   const isActive = (path) => {
     if (path === '/') {
@@ -43,7 +59,9 @@ const BottomNav = () => {
             }
           >
             <item.icon className={`w-6 h-6 ${isActive(item.path) ? 'text-yellow-500' : ''}`} />
-            <span className="text-xs mt-1">{item.label}</span>
+            <span className="text-xs mt-1 whitespace-nowrap">
+              {isSmallScreen && item.mobileLabel ? item.mobileLabel : item.label}
+            </span>
           </NavLink>
         ))}
       </div>
