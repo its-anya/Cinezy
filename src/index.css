@@ -28,6 +28,14 @@ body {
   display: none; /* Chrome, Safari */
 }
 
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
 .swiper-button-prev,
 .swiper-button-next {
   color: #ffd321; /* Tailwind's yellow-400 */

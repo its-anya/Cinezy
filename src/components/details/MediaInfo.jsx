@@ -15,7 +15,6 @@ const MediaInfo = ({
   releaseDate, 
   runtime, 
   numberOfSeasons,
-  overview,
   onPlayStream,
   onPlayTrailer,
   hasStreamUrl,
@@ -80,14 +79,6 @@ const MediaInfo = ({
           </div>
         </div>
 
-        {overview && (
-          <>
-            <h3 className="text-xl font-semibold mb-2">Overview</h3>
-            <p className="text-sm md:text-base text-brand-text-secondary leading-relaxed mb-6 md:mb-8">
-              {overview}
-            </p>
-          </>
-        )}
         <MediaActions
           onPlayStream={onPlayStream}
           onPlayTrailer={onPlayTrailer}

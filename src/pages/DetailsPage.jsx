@@ -119,6 +119,14 @@ const DetailsPage = () => {
       (type === "tv" && id && selectedSeason > 0 && selectedEpisode > 0)
     ) {
       setShowStreamPlayer(true);
+      
+      // Add auto-scroll to the player after a small delay to ensure the player has rendered
+      setTimeout(() => {
+        const streamPlayerSection = document.getElementById('video-player-section');
+        if (streamPlayerSection) {
+          streamPlayerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
     }
   };
 
@@ -214,7 +222,6 @@ const DetailsPage = () => {
           releaseDate={itemReleaseDate}
           runtime={itemRuntime}
           numberOfSeasons={number_of_seasons}
-          overview={overview}
           onPlayStream={handlePlayStream}
           onPlayTrailer={
             officialTrailers[0]
@@ -273,6 +280,14 @@ const DetailsPage = () => {
 
         </div>
       )}
+
+      {/* Overview Section */}
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 py-4 md:py-8">
+        <h2 className="text-2xl font-bold mb-4">Overview</h2>
+        <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-6">
+          {overview || 'No overview available for this title.'}
+        </p>
+      </div>
 
       {/* Cast Section */}
       {topCast.length > 0 && <CastSection cast={topCast} />}

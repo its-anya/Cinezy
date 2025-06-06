@@ -19,7 +19,7 @@ const StreamPlayer = ({
 }) => {
   mediaType = mediaType === 'anime' ? 'tv' : mediaType;
   return (
-    <section className="container mx-auto md:px-8 lg:px-12 py-8 md:py-12">
+    <section id="video-player-section" className="container mx-auto md:px-8 lg:px-12 py-8 md:py-12">
      <div className="flex justify-between items-center p-4 bg-black/50">
         <h2 className="text-xl font-bold">{title}</h2>
         <button
