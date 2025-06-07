@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>hikashow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Kanit font -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- Translucent Navbar with logo (no underline), Watchlist link, and live search -->
+  <header class="navbar">
+    <a href="/" class="logo">hikashow</a>
+    <nav class="nav-links">
+      <a href="/watchlist" class="watchlist-link">Watchlist</a>
+    </nav>
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search movies or web series...">
+      <div id="search-results"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Banner Carousel for Trending Movies -->
+    <% if (trendingMovies && trendingMovies.length > 0) { %>
+    <section class="carousel">
+      <div class="carousel-container">
+        <% trendingMovies.forEach((movie) => {
+             const backdropUrl = movie.backdrop_path 
+               ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+               : '/css/no-image.jpg';
+        %>
+          <div class="carousel-slide">
+            <img src="<%= backdropUrl %>" alt="<%= movie.title %>">
+            <div class="slide-overlay">
+              <div class="slide-content">
+                <h1><%= movie.title %></h1>
+                <p>
+                  <%= movie.overview 
+                      ? movie.overview.substring(0, 150) + "..." 
+                      : "No description available." 
+                  %>
+                </p>
+                <div class="slide-buttons">
+                  <a href="/details/movie/<%= movie.id %>" class="btn btn-play">▶ Play</a>
+                  <a href="/details/movie/<%= movie.id %>" class="btn btn-info">ℹ More Info</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+      <button class="carousel-control prev">‹</button>
+      <button class="carousel-control next">›</button>
+    </section>
+    <% } %>
+
+    <!-- Watched Previously Section -->
+    <section class="movies-row" id="watched-section" style="display:none;">
+      <h2>Watched Previously</h2>
+      <div class="row-container" id="watched-container"></div>
+    </section>
+
+    <!-- Now Playing Section -->
+    <% if (nowPlayingMovies && nowPlayingMovies.length > 0) { %>
+    <section class="movies-row">
+      <h2>Now Playing</h2>
+      <div class="row-container">
+        <% nowPlayingMovies.forEach((movie) => {
+             const posterUrl = movie.poster_path 
+               ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+               : '/css/no-image.jpg';
+        %>
+          <div class="movie-item">
+            <a href="/details/movie/<%= movie.id %>">
+              <img src="<%= posterUrl %>" alt="<%= movie.title %>">
+              <div class="movie-info">
+                <h3><%= movie.title %></h3>
+                <p>⭐ <%= movie.vote_average.toFixed(1) %></p>
+              </div>
+            </a>
+            <button class="btn btn-watchlist-card" onclick='addToWatchlist("<%= movie.id %>","movie","<%= movie.title %>","<%= movie.poster_path %>")'>＋</button>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Popular Section -->
+    <% if (popularMovies && popularMovies.length > 0) { %>
+    <section class="movies-row">
+      <h2>Popular</h2>
+      <div class="row-container">
+        <% popularMovies.forEach((movie) => {
+             const posterUrl = movie.poster_path 
+               ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+               : '/css/no-image.jpg';
+        %>
+          <div class="movie-item">
+            <a href="/details/movie/<%= movie.id %>">
+              <img src="<%= posterUrl %>" alt="<%= movie.title %>">
+              <div class="movie-info">
+                <h3><%= movie.title %></h3>
+                <p>⭐ <%= movie.vote_average.toFixed(1) %></p>
+              </div>
+            </a>
+            <button class="btn btn-watchlist-card" onclick='addToWatchlist("<%= movie.id %>","movie","<%= movie.title %>","<%= movie.poster_path %>")'>＋</button>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Top Rated Section -->
+    <% if (topRatedMovies && topRatedMovies.length > 0) { %>
+    <section class="movies-row">
+      <h2>Top Rated</h2>
+      <div class="row-container">
+        <% topRatedMovies.forEach((movie) => {
+             const posterUrl = movie.poster_path 
+               ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+               : '/css/no-image.jpg';
+        %>
+          <div class="movie-item">
+            <a href="/details/movie/<%= movie.id %>">
+              <img src="<%= posterUrl %>" alt="<%= movie.title %>">
+              <div class="movie-info">
+                <h3><%= movie.title %></h3>
+                <p>⭐ <%= movie.vote_average.toFixed(1) %></p>
+              </div>
+            </a>
+            <button class="btn btn-watchlist-card" onclick='addToWatchlist("<%= movie.id %>","movie","<%= movie.title %>","<%= movie.poster_path %>")'>＋</button>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+  </main>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> hikashow</p>
+  </footer>
+
+  <script>
+    // Carousel sliding animation
+    (function() {
+      const carouselContainer = document.querySelector('.carousel-container');
+      const slides = document.querySelectorAll('.carousel-slide');
+      const prevButton = document.querySelector('.carousel-control.prev');
+      const nextButton = document.querySelector('.carousel-control.next');
+      let currentIndex = 0;
+      let slideInterval;
+      function showSlide(index) {
+        carouselContainer.style.transform = `translateX(-${index * 100}%)`;
+      }
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+      }
+      function prevSlide() {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(currentIndex);
+      }
+      nextButton.addEventListener('click', () => {
+        nextSlide();
+        resetInterval();
+      });
+      prevButton.addEventListener('click', () => {
+        prevSlide();
+        resetInterval();
+      });
+      function resetInterval() {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, 5000);
+      }
+      slideInterval = setInterval(nextSlide, 5000);
+    })();
+
+    // Live Search functionality
+    let debounceTimer;
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    searchInput.addEventListener('input', function() {
+      const query = searchInput.value.trim();
+      clearTimeout(debounceTimer);
+      if (query.length === 0) {
+        searchResults.innerHTML = '';
+        return;
+      }
+      debounceTimer = setTimeout(() => {
+        fetch(`/api/search?query=${encodeURIComponent(query)}`)
+          .then(response => response.json())
+          .then(data => displaySearchResults(data.results))
+          .catch(err => console.error(err));
+      }, 300);
+    });
+    function displaySearchResults(results) {
+      if (!results || results.length === 0) {
+        searchResults.innerHTML = '<p>No results found.</p>';
+        return;
+      }
+      let html = '<ul>';
+      results.forEach(item => {
+        if (item.media_type === 'movie' || item.media_type === 'tv') {
+          const title = item.media_type === 'movie' ? item.title : item.name;
+          const posterPath = item.poster_path ? `https://image.tmdb.org/t/p/w92${item.poster_path}` : '/css/no-image.jpg';
+          html += `<li>
+            <a href="/details/${item.media_type}/${item.id}">
+              <img src="${posterPath}" alt="${title}">
+              <span>${title}</span>
+            </a>
+          </li>`;
+        }
+      });
+      html += '</ul>';
+      searchResults.innerHTML = html;
+    }
+
+    // Watchlist functions (already implemented)
+    function getWatchlist() {
+      const cookieData = document.cookie.split('; ').find(row => row.startsWith('watchlist='));
+      if (cookieData) {
+        try {
+          return JSON.parse(decodeURIComponent(cookieData.split('=')[1]));
+        } catch (e) {
+          return [];
+        }
+      }
+      return [];
+    }
+    function saveWatchlist(watchlist) {
+      document.cookie = "watchlist=" + encodeURIComponent(JSON.stringify(watchlist)) + "; path=/; max-age=" + (60*60*24*30);
+    }
+    function addToWatchlist(id, type, title, poster_path) {
+      let watchlist = getWatchlist();
+      const movie = { id, type, title, poster_path };
+      if (!watchlist.some(item => item.id == id && item.type === type)) {
+        watchlist.push(movie);
+        saveWatchlist(watchlist);
+        alert(title + " added to Watchlist!");
+      } else {
+        alert(title + " is already in your Watchlist.");
+      }
+    }
+
+    // Watched Previously functions
+    function getWatched() {
+      const cookieData = document.cookie.split('; ').find(row => row.startsWith('watched='));
+      if (cookieData) {
+        try {
+          return JSON.parse(decodeURIComponent(cookieData.split('=')[1]));
+        } catch(e) {
+          return [];
+        }
+      }
+      return [];
+    }
+    function saveWatched(watched) {
+      document.cookie = "watched=" + encodeURIComponent(JSON.stringify(watched)) + "; path=/; max-age=" + (60*60*24*30);
+    }
+    function displayWatched() {
+      const watched = getWatched();
+      const container = document.getElementById('watched-container');
+      const section = document.getElementById('watched-section');
+      if (watched.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+      section.style.display = "block";
+      let html = '';
+      watched.forEach(item => {
+        const posterUrl = item.poster_path ? `https://image.tmdb.org/t/p/w300${item.poster_path}` : '/css/no-image.jpg';
+        html += `<div class="movie-item">
+          <a href="/details/${item.type}/${item.id}">
+            <img src="${posterUrl}" alt="${item.title}">
+            <div class="movie-info">
+              <h3>${item.title}</h3>
+            </div>
+          </a>
+          <button class="btn btn-remove-watchlist" onclick='removeFromWatched("${item.id}", "${item.type}")'>－</button>
+        </div>`;
+      });
+      container.innerHTML = html;
+    }
+    function removeFromWatched(id, type) {
+      let watched = getWatched();
+      watched = watched.filter(item => !(item.id == id && item.type === type));
+      saveWatched(watched);
+      displayWatched();
+    }
+    document.addEventListener('DOMContentLoaded', displayWatched);
+  </script>
+</body>
+</html>

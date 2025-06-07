@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Results - hikashow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">hikashow</div>
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="#">Popular</a>
+      <a href="#">Now Playing</a>
+      <a href="#">Top Rated</a>
+      <a href="#">Upcoming</a>
+    </nav>
+    <form class="search-form" action="/search" method="get">
+      <input type="text" name="query" placeholder="Search movies..." value="<%= query %>" required>
+      <button type="submit">Search</button>
+    </form>
+  </header>
+
+  <main>
+    <section class="movies-row">
+      <h2>Search Results for "<%= query %>"</h2>
+      <div class="row-container">
+        <% if (results.length > 0) { %>
+          <% results.forEach((movie) => {
+               const posterUrl = movie.poster_path 
+                 ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                 : '/css/no-image.jpg';
+          %>
+            <div class="movie-item">
+              <img src="<%= posterUrl %>" alt="<%= movie.title %>">
+              <div class="movie-info">
+                <h3><%= movie.title %></h3>
+                <p>⭐ <%= movie.vote_average.toFixed(1) %></p>
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p>No results found.</p>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> hikashow</p>
+  </footer>
+</body>
+</html>

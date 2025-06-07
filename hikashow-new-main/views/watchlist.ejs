@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Watchlist - hikashow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Kanit font -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="logo">hikashow</a>
+    <nav class="nav-links">
+      <a href="/watchlist" class="watchlist-link active">Watchlist</a>
+    </nav>
+  </header>
+  <main class="watchlist-page">
+    <h1>Your Watchlist</h1>
+    <div id="watchlist-container"></div>
+  </main>
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> hikashow</p>
+  </footer>
+  <script>
+    function getWatchlist() {
+      const cookieData = document.cookie.split('; ').find(row => row.startsWith('watchlist='));
+      if (cookieData) {
+        try {
+          return JSON.parse(decodeURIComponent(cookieData.split('=')[1]));
+        } catch (e) {
+          return [];
+        }
+      }
+      return [];
+    }
+    function saveWatchlist(watchlist) {
+      document.cookie = "watchlist=" + encodeURIComponent(JSON.stringify(watchlist)) + "; path=/; max-age=" + (60*60*24*30);
+    }
+    function displayWatchlist() {
+      const watchlist = getWatchlist();
+      const container = document.getElementById('watchlist-container');
+      if (watchlist.length === 0) {
+        container.innerHTML = "<p>Your watchlist is empty.</p>";
+        return;
+      }
+      let html = '<div class="row-container">';
+      watchlist.forEach(item => {
+        const posterUrl = item.poster_path ? `https://image.tmdb.org/t/p/w300${item.poster_path}` : '/css/no-image.jpg';
+        html += `<div class="movie-item">
+          <a href="/details/${item.type}/${item.id}">
+            <img src="${posterUrl}" alt="${item.title}">
+            <div class="movie-info">
+              <h3>${item.title}</h3>
+            </div>
+          </a>
+          <button class="btn btn-remove-watchlist" onclick='removeFromWatchlist("${item.id}", "${item.type}")'>－</button>
+        </div>`;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+    function removeFromWatchlist(id, type) {
+      let watchlist = getWatchlist();
+      watchlist = watchlist.filter(item => !(item.id == id && item.type === type));
+      saveWatchlist(watchlist);
+      displayWatchlist();
+    }
+    document.addEventListener('DOMContentLoaded', displayWatchlist);
+  </script>
+</body>
+</html>
