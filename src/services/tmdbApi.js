@@ -2,8 +2,8 @@
 import axios from "axios";
 
 // TMDB Proxy + API Key
-const API_KEY = "df0daedd7538a65a227659c13a67d152";
-const BASE_URL = "https://tmdbapi.sakshamchugh.com/3";
+const API_KEY = "316c4e861349503d9ddaea4b427ccfb7";
+const BASE_URL = "https://api.themoviedb.org/3";
 
 const api = axios.create({
   baseURL: BASE_URL,
